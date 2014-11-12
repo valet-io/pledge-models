@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '0.10'
+deploy:
+  provider: npm
+  email: bvdrucker@gmail.com
+  api_key:
+    secure: FXNHrG/NBBv6NqB6dhj+dHNqSn4oJFCwlqkYPMDLcABO4MZWg/wfTnrOPJFSmOmRF1ibrbvXWGFPp6gTs+jxlQ07UkQKSr520br5wFZckYsKwjqzcijZ/TRg/rm+GZA9Q3aavBblftNsbAbWj9YqJnV4PjlTMRwJX4MiXIDt8vM=
+  on:
+    tags: true
+    all_branches: true
+    repo: valet-io/pledge-models
