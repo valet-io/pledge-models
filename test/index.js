@@ -19,4 +19,10 @@ describe('Pledge Models', function () {
   describe('Campaign', require('./campaign'));
   describe('Pledge', require('./pledge'));
   describe('Payment', require('./payment'));
+  // for coverage
+  describe('Donor', function () {
+    it('exists', angular.mock.inject(function (Donor) {
+      expect(new Donor().$name).to.equal('donor');
+    }));
+  });
 });
