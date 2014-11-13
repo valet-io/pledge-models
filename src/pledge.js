@@ -3,7 +3,13 @@
 module.exports = function (ConvexModel) {
   return ConvexModel.extend({
     $name: 'pledge',
-    anonymous: false
+    anonymous: false,
+    $firebase: {
+      path: function (withId, collection) {
+        var campaign = collection ? collection.$related('campaign') : this.campaign;
+        return campaign.$path() + '/' + this.$path(withId);
+      }
+    } 
   })
   .belongsTo('Donor', 'donor')
   .belongsTo('Campaign', 'campaign')

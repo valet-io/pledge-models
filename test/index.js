@@ -17,5 +17,6 @@ describe('Pledge Models', function () {
     });
   }));
   describe('Campaign', require('./campaign'));
+  describe('Pledge', require('./pledge'));
   describe('Payment', require('./payment'));
 });
