@@ -5,3 +5,5 @@ module.exports = function (ConvexModel) {
     $name: 'donor'
   });
 };
+
+module.exports.$inject = ['ConvexModel'];
