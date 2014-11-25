@@ -13,3 +13,4 @@ deploy:
 notifications:
   slack:
     secure: Jr7j7ERU1Bfr3TvJhKUQJYPUEpxrCKUhm9nFTTsro0jNohjOjuGT4038AZB57S1gLHwbTib88yoHLzv6IGLqw9ybggwVJj3cUIP6Xk9odw0ZvyhLOAJnvzt0qkvGNmMAnu2S39awR7z5BbYefjvE0Dryawtr4rHjmUHsrg0HnMw=
+  email: false
