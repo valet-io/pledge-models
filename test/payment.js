@@ -19,12 +19,28 @@ module.exports = function () {
     }));
   }));
 
+  describe('#toStripe', function () {
+
+    it('copies the card', function () {
+      payment.card = {
+        number: '4242424242424242'
+      };
+      expect(payment.toStripe()).to.have.property('number', '4242424242424242');
+    });
+
+    it('can include a custom publishable key', function () {
+      payment.$key = 'customPk';
+      expect(payment.toStripe()).to.have.property('key', 'customPk');
+    });
+
+  });
+
   describe('#tokenize', function () {
 
     it('tokenizes the card', function () {
       payment.card = {};
       payment.tokenize();
-      expect(stripe.card.createToken).to.have.been.calledWith(payment.card);
+      expect(stripe.card.createToken).to.have.been.calledWithMatch(payment.card);
     });
 
     it('sets the token id as token', function () {
