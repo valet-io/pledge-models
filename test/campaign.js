@@ -59,4 +59,14 @@ module.exports = function () {
 
   });
 
+  describe('options', function () {
+
+    it('gets the options', function () {
+      expect(campaign.options).to.deep.equal({
+        starting_value: 0
+      });
+    });
+
+  });
+
 };

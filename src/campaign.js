@@ -23,6 +23,11 @@ module.exports = function (ConvexModel) {
       get: function () {
         return this.$$aggregates.count;
       }
+    },
+    options: {
+      get: function () {
+        return this.$$options;
+      }
     }
   });
 
