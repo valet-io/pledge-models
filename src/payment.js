@@ -6,17 +6,17 @@ module.exports = function (ConvexModel, stripe) {
   var Payment = ConvexModel.extend({
     $name: 'payment',
     toStripe: function () {
-      return angular.extend({}, this.card, {
-        key: this.$key
-      });
+      return angular.copy(this.card);
     },
     tokenize: function () {
       var self = this;
-      return stripe.card.createToken(this.toStripe())
-        .then(function (token) {
-          self.token = token.id;
-          return self;
-        });
+      return stripe.card.createToken(this.toStripe(), {
+        key: this.$key  
+      })
+      .then(function (token) {
+        self.token = token.id;
+        return self;
+      });
     },
     toJSON: function () {
       var json = ConvexModel.prototype.toJSON.call(this);

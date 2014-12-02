@@ -25,12 +25,10 @@ module.exports = function () {
       payment.card = {
         number: '4242424242424242'
       };
-      expect(payment.toStripe()).to.have.property('number', '4242424242424242');
-    });
-
-    it('can include a custom publishable key', function () {
-      payment.$key = 'customPk';
-      expect(payment.toStripe()).to.have.property('key', 'customPk');
+      expect(payment.toStripe())
+        .to.deep.equal(payment.card)
+      expect(payment.toStripe())
+        .to.not.equal(payment.card);
     });
 
   });
@@ -41,6 +39,15 @@ module.exports = function () {
       payment.card = {};
       payment.tokenize();
       expect(stripe.card.createToken).to.have.been.calledWithMatch(payment.card);
+    });
+
+    it('uses a custom publishable key if set', function () {
+      payment.card = {};
+      payment.$key = 'customPk';
+      payment.tokenize();
+      expect(stripe.card.createToken).to.have.been.calledWithMatch(payment.card, sinon.match({
+        key: 'customPk'
+      }));
     });
 
     it('sets the token id as token', function () {
