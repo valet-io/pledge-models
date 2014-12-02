@@ -8,7 +8,10 @@ module.exports = function () {
   beforeEach(angular.mock.inject(function ($injector) {
     Payment  = $injector.get('Payment');
     payment  = new Payment({
-      pledge: {}
+      address: {},
+      pledge: {
+        donor: {}
+      }
     });
     $q       = $injector.get('$q');
     stripe   = $injector.get('stripe');
@@ -21,14 +24,38 @@ module.exports = function () {
 
   describe('#toStripe', function () {
 
+    function jsonify (object) {
+      return JSON.parse(JSON.stringify(object));
+    }
+
     it('copies the card', function () {
       payment.card = {
         number: '4242424242424242'
       };
-      expect(payment.toStripe())
+      expect(jsonify(payment.toStripe()))
         .to.deep.equal(payment.card)
-      expect(payment.toStripe())
-        .to.not.equal(payment.card);
+    });
+
+    it('includes the donor name', function () {
+      payment.pledge.donor.name = 'Ben'
+      expect(jsonify(payment.toStripe()))
+        .to.deep.equal({
+          name: 'Ben'
+        });
+    });
+
+    it('includes the address', function () {
+      payment.address = {
+        street1: '190 Bowery',
+        street2: 'Floor 1',
+        zip: '10012'
+      };
+      expect(jsonify(payment.toStripe()))
+        .to.deep.equal({
+          address_line1: '190 Bowery',
+          address_line2: 'Floor 1',
+          address_zip: '10012'
+        });
     });
 
   });
