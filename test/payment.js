@@ -93,10 +93,14 @@ module.exports = function () {
     });
 
     it('removes a falsy street2', function () {
-      payment.street2 = '';
-      expect(payment.toJSON()).to.not.have.property('street2');
-      payment.street2 = 'Apt 11B';
-      expect(payment.toJSON()).to.have.property('street2');
+      // validate that it doesn't throw w/out payment.address
+      payment.toJSON();
+      payment.address = {
+        street2: ''
+      };
+      expect(payment.toJSON().address.street2).to.be.undefined;
+      payment.address.street2 = 'Apt 11B';
+      expect(payment.toJSON()).to.have.deep.property('address.street2', 'Apt 11B');
 
     });
 
