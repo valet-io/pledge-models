@@ -58,6 +58,15 @@ module.exports = function () {
         });
     });
 
+    it('excludes undefined values', function () {
+      payment.address = {
+        street1: '190 Bowery',
+        street2: undefined,
+        zip: '10012'
+      };
+      expect(jsonify(payment.toStripe()).hasOwnProperty('street2')).to.be.false;
+    });
+
   });
 
   describe('#tokenize', function () {

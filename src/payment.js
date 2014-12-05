@@ -6,12 +6,12 @@ module.exports = function (ConvexModel, stripe) {
   var Payment = ConvexModel.extend({
     $name: 'payment',
     toStripe: function () {
-      return angular.extend({}, this.card, {
+      return jsonify(angular.extend({}, this.card, {
         name: this.pledge.donor.name,
         address_line1: this.address.street1,
         address_line2: this.address.street2,
         address_zip: this.address.zip
-      });
+      }));
     },
     tokenize: function () {
       var self = this;
@@ -45,3 +45,7 @@ module.exports = function (ConvexModel, stripe) {
   return Payment;
 };
 module.exports.$inject = ['ConvexModel', 'stripe'];
+
+function jsonify (object) {
+  return angular.fromJson(angular.toJson(object));
+}
