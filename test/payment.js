@@ -24,21 +24,17 @@ module.exports = function () {
 
   describe('#toStripe', function () {
 
-    function jsonify (object) {
-      return JSON.parse(JSON.stringify(object));
-    }
-
     it('copies the card', function () {
       payment.card = {
         number: '4242424242424242'
       };
-      expect(jsonify(payment.toStripe()))
+      expect(payment.toStripe())
         .to.deep.equal(payment.card)
     });
 
     it('includes the donor name', function () {
       payment.pledge.donor.name = 'Ben'
-      expect(jsonify(payment.toStripe()))
+      expect(payment.toStripe())
         .to.deep.equal({
           name: 'Ben'
         });
@@ -48,13 +44,17 @@ module.exports = function () {
       payment.address = {
         street1: '190 Bowery',
         street2: 'Floor 1',
-        zip: '10012'
+        zip: '10012',
+        city: 'New York',
+        state: 'NY'
       };
-      expect(jsonify(payment.toStripe()))
+      expect(payment.toStripe())
         .to.deep.equal({
           address_line1: '190 Bowery',
           address_line2: 'Floor 1',
-          address_zip: '10012'
+          address_zip: '10012',
+          address_city: 'New York',
+          address_state: 'NY'
         });
     });
 
@@ -64,7 +64,7 @@ module.exports = function () {
         street2: undefined,
         zip: '10012'
       };
-      expect(jsonify(payment.toStripe()).hasOwnProperty('street2')).to.be.false;
+      expect(payment.toStripe().hasOwnProperty('street2')).to.be.false;
     });
 
   });

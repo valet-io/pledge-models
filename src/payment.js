@@ -10,7 +10,9 @@ module.exports = function (ConvexModel, stripe) {
         name: this.pledge.donor.name,
         address_line1: this.address.street1,
         address_line2: this.address.street2,
-        address_zip: this.address.zip
+        address_zip: this.address.zip,
+        address_city: this.address.city,
+        address_state: this.address.state
       }));
     },
     tokenize: function () {
