@@ -2,7 +2,7 @@
 
 var angular = require('angular');
 
-module.exports = function (ConvexModel, stripe) {
+module.exports = function (ConvexModel, stripe, ziptastic) {
   var Payment = ConvexModel.extend({
     $name: 'payment',
     toStripe: function () {
@@ -22,6 +22,18 @@ module.exports = function (ConvexModel, stripe) {
       })
       .then(function (token) {
         self.token = token.id;
+        return self;
+      });
+    },
+    zipLookup: function ($httpOptions) {
+      var self = this;
+      return ziptastic.lookup({
+        code: this.address.zip,
+        $http: $httpOptions
+      })
+      .then(function (data) {
+        self.address.city = data.city;
+        self.address.state = data.state_short;
         return self;
       });
     },
@@ -46,7 +58,7 @@ module.exports = function (ConvexModel, stripe) {
 
   return Payment;
 };
-module.exports.$inject = ['ConvexModel', 'stripe'];
+module.exports.$inject = ['ConvexModel', 'stripe', 'ziptastic'];
 
 function jsonify (object) {
   return angular.fromJson(angular.toJson(object));

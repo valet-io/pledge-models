@@ -4,7 +4,7 @@ var angular = require('angular');
 
 module.exports = function () {
 
-  var Payment, payment, stripe, $q, $timeout;
+  var Payment, payment, stripe, ziptastic, $q, $timeout;
   beforeEach(angular.mock.inject(function ($injector) {
     Payment  = $injector.get('Payment');
     payment  = new Payment({
@@ -13,9 +13,10 @@ module.exports = function () {
         donor: {}
       }
     });
-    $q       = $injector.get('$q');
-    stripe   = $injector.get('stripe');
-    $timeout = $injector.get('$timeout');
+    $q        = $injector.get('$q');
+    stripe    = $injector.get('stripe');
+    ziptastic = $injector.get('ziptastic');
+    $timeout  = $injector.get('$timeout');
 
     stripe.card.createToken.returns($q.when({
       id: 'theTokenId'
@@ -90,6 +91,37 @@ module.exports = function () {
       payment.tokenize();
       $timeout.flush();
       expect(payment.token).to.equal('theTokenId');
+    });
+
+  });
+
+  describe('#zipLookup', function () {
+
+    it('can look up the city and state', function () {
+      sinon.stub(ziptastic, 'lookup').returns($q.when({
+        city: 'New York City',
+        state_short: 'NY'
+      }));
+      payment.address = {
+        zip: '10009'
+      };
+      payment.zipLookup()
+        .then(function (_payment_) {
+          expect(payment).to.equal(_payment_);
+          expect(payment.address.city).to.equal('New York City');
+          expect(payment.address.state).to.equal('NY');
+        });
+      $timeout.flush();
+    });
+
+    it('can pass options for $http', function () {
+      sinon.stub(ziptastic, 'lookup').returns({then: sinon.stub()});
+      var options = {};
+      payment.address = {};
+      payment.zipLookup(options);
+      expect(ziptastic.lookup).to.have.been.calledWithMatch({
+        $http: options
+      });
     });
 
   });

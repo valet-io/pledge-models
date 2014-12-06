@@ -3,7 +3,8 @@
 require('angular')
   .module('valet-io-pledge-models', [
     'convex',
-    'convex-firebase'
+    'convex-firebase',
+    require('angular-ziptastic')
   ])
   .factory('Campaign', require('./campaign'))
   .factory('Donor', require('./donor'))
