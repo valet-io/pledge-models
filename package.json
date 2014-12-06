@@ -1,6 +1,6 @@
 {
   "name": "valet-io-pledge-models",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Shared models used by mobile and primary app",
   "main": "./src",
   "dependencies": {
