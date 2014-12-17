@@ -2,14 +2,15 @@
 
 var angular = require('angular');
 
-module.exports = function () {
+module.exports = function () { 
 
-  var campaign, $rootScope;
+  var Campaign, campaign, $rootScope, live;
   beforeEach(angular.mock.inject(function ($injector) {
-    var Campaign = $injector.get('Campaign');
-    campaign     = new Campaign();
-    $rootScope   = $injector.get('$rootScope');
-    var ref      = campaign.$ref()
+    Campaign   = $injector.get('Campaign');
+    campaign   = new Campaign();
+    $rootScope = $injector.get('$rootScope');
+    live       = $injector.get('live');
+    var ref    = campaign.$ref();
     sinon.stub(campaign, '$ref').returns(ref);
     ref.set({
       aggregates: {
@@ -27,6 +28,18 @@ module.exports = function () {
     campaign.$ref().flush();
     $rootScope.$digest();
   }
+
+  it('can generate a Firebase reference for live mode', function () {
+    expect(campaign.$ref().currentPath)
+      .to.equal('Mock://campaigns/' + campaign.id + '/live');
+  });
+
+  it('can generate a Firebase reference for test mode', function () {
+    live.enabled.returns(false);
+    campaign = new Campaign();
+    expect(campaign.$ref().currentPath)
+      .to.equal('Mock://campaigns/' + campaign.id + '/test');
+  });
 
   describe('total', function () {
 

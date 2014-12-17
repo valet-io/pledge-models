@@ -1,8 +1,13 @@
 'use strict';
 
-module.exports = function (ConvexModel) {
+module.exports = function (ConvexModel, live) {
   var Campaign = ConvexModel.extend({
     $name: 'campaign',
+    $firebase: {
+      path: function (withId) {
+        return this.$path(withId) + '/' + (live.enabled() ? 'live' : 'test');
+      }
+    },
     $$aggregates: {
       total: 0,
       count: 0
@@ -34,4 +39,4 @@ module.exports = function (ConvexModel) {
   return Campaign;
 };
 
-module.exports.$inject = ['ConvexModel'];
+module.exports.$inject = ['ConvexModel', 'live'];

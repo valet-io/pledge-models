@@ -7,7 +7,7 @@ module.exports = function (ConvexModel) {
     $firebase: {
       path: function (withId, collection) {
         var campaign = collection ? collection.$related('campaign') : this.campaign;
-        return campaign.$path() + '/' + this.$path(withId);
+        return campaign.$firebase.path.call(campaign, true) + '/' + this.$path(withId);
       }
     } 
   })
@@ -16,4 +16,4 @@ module.exports = function (ConvexModel) {
   .hasMany('Payment', 'payments');
 };
 
-module.exports.$inject = ['ConvexModel'];
+module.exports.$inject = ['ConvexModel', 'live'];

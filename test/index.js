@@ -8,12 +8,13 @@ describe('Pledge Models', function () {
   beforeEach(angular.mock.module(require('../')));
   beforeEach(angular.mock.module(function ($provide) {
     $provide.value('Firebase', require('mockfirebase').MockFirebase);
-  }));
-  beforeEach(angular.mock.module(function ($provide) {
     $provide.value('stripe', {
       card: {
         createToken: sinon.stub()
       }
+    });
+    $provide.value('live', {
+      enabled: sinon.stub().returns(true)
     });
   }));
   describe('Campaign', require('./campaign'));
