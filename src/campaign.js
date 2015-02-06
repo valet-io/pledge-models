@@ -16,7 +16,8 @@ module.exports = function (ConvexModel, live) {
       starting_value: 0
     }
   })
-  .hasMany('Pledge', 'pledges');
+  .hasMany('Pledge', 'pledges')
+  .belongsTo('Domain', 'domain');
 
   Object.defineProperties(Campaign.prototype, {
     total: {

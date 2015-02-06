@@ -7,6 +7,7 @@ require('angular')
     require('angular-ziptastic')
   ])
   .factory('Campaign', require('./campaign'))
+  .factory('Domain', require('./domain'))
   .factory('Donor', require('./donor'))
   .factory('Payment', require('./payment'))
   .factory('Pledge', require('./pledge'));
